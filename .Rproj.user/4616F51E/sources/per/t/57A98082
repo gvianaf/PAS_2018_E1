@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1552414807234.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2711898159",
+    "id" : "57A98082",
+    "lastKnownWriteTime" : 1552415201,
+    "last_content_update" : 1552415201189,
+    "path" : "X:/CIG/PAS/AppPAS2018.Rmd",
+    "project_path" : "AppPAS2018.Rmd",
+    "properties" : {
+        "cursorPosition" : "155,45",
+        "scrollLine" : "129"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

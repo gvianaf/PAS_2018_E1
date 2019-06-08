@@ -1,0 +1,12 @@
+name: AppPAS2018
+title: AppPAS2018
+username:
+account: gvianaf
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 784621
+bundleId: 1934273
+url: https://gvianaf.shinyapps.io/AppPAS2018/
+when: 1552414637.73143
+asMultiple: FALSE
+asStatic: FALSE

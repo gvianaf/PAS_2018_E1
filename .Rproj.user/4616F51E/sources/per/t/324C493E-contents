@@ -1,0 +1,65 @@
+
+library(pdftools)
+library(stringr)
+library(tidyr)
+library(purrr)
+library(rlist)
+
+dadosRU <- pdf_text("relatório 2017 graduação.pdf") %>% strsplit("\n") # %>% unlist()
+
+dadosRU_2 <- dadosRU %>% 
+  filter(!grepl("Universidade de Brasília", dadosRU))
+
+dadosRU_2 <- dadosRU[1]
+
+remover1 <- map(dadosRU, function(x) str_detect(x, "Universidade de Brasília"))
+
+remover1 <- str_detect(dadosRU, "Universidade de Brasília")
+remover2 <- str_detect(dadosRU, "Relatório Consumo")
+remover3 <- str_detect(dadosRU, "Nível acadêmico")
+remover4 <- str_detect(dadosRU, "Dt. Consumo")
+remover5 <- str_detect(dadosRU, "acadêmico")
+remover6 <- str_detect(dadosRU, "SISRU")
+remover7 <- str_detect(dadosRU, "Página")
+
+dadosRU <- dadosRU[remover1]
+dadosRU <- dadosRU[-remover2]
+dadosRU <- dadosRU[-remover3]
+dadosRU <- dadosRU[-remover4]
+dadosRU <- dadosRU[-remover5]
+dadosRU <- dadosRU[-remover6]
+dadosRU <- dadosRU[-remover7]
+
+dadosRU <- subset(dadosRU, str_detect(dadosRU, "Universidade de Brasília"))
+
+head(dadosRU[27186])
+
+dadosRUp <- dadosRU[[1]]
+remover1 <- str_detect(dadosRUp, "Universidade de Brasília")
+remover2 <- str_detect(dadosRUp, "Relatório Consumo")
+remover3 <- str_detect(dadosRUp, "Nível acadêmico")
+remover4 <- str_detect(dadosRUp, "Dt. Consumo")
+remover5 <- str_detect(dadosRUp, "acadêmico")
+remover6 <- str_detect(dadosRUp, "SISRU")
+remover7 <- str_detect(dadosRUp, "Página")
+
+dadosRUp <- dadosRUp[-remover1]
+dadosRUp <- dadosRUp[-remover2]
+dadosRUp <- dadosRUp[-remover3]
+dadosRUp <- dadosRUp[-remover4]
+dadosRUp <- dadosRUp[-remover5]
+dadosRUp <- dadosRUp[-remover6]
+dadosRUp <- dadosRUp[-remover7]
+
+View(dadosRUp)
+
+remover1 <- grep(".+Universidade de Brasília.+", dadosRU)[1]
+dadosRU <- dadosRU[(remover1 + 1):length(dadosRU)]
+head(dadosRU)
+
+
+# library(tabulizer)
+# output <- extract_tables("relatório 2017 graduação.pdf", pages = 1)
+rm(dadosRUp)
+
+rio::export(dadosRU, "DadosRU.xlsx")
