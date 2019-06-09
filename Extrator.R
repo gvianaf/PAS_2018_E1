@@ -6,7 +6,8 @@ options(OutDec = ",")
 
 ### lê o texto
 texto <- pdf_text("Ed 8 PAS Subprograma 2018 1a etapa Res final tipo D e redação_revisada.pdf") %>% 
-  strsplit("\n") %>% unlist()
+  strsplit("\n") %>% 
+  unlist()
 
 ### limpa o texto
 
