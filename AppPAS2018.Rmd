@@ -1,5 +1,5 @@
 ---
-title: "Notas do PAS 2018-2020 1a Etapa"
+title: "Notas do PAS 2018-2020 1ª Etapa"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -9,9 +9,9 @@ runtime: shiny
 ---
 
 ```{r global, include=FALSE}
+options(OutDec = ",")
 library(flexdashboard)
 library(ggplot2)
-# setwd("X:/CIG/PAS")
 PAS2018 <- rio::import("NotasPAS2018.xlsx")
 ```
 
@@ -19,13 +19,13 @@ Inputs {.sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
-selectInput("Inscricao", label = h3("Selecione o número de sua inscrição"), 
+selectInput("Inscrição", label = h3("Selecione o número de sua inscrição"), 
             choices = unique(PAS2018$Inscrição), 
             selected = 1)
 
 ```
 
-As notas do PAS subprograma 2018 (triênio 2018/2020) foram divulgadas pelo CEBRASPE no endereço: https://bit.ly/2J92dZZ.
+As notas da 1ª etapa do subprograma 2018 do PAS (triênio 2018/2020) foram divulgadas pelo CEBRASPE no endereço: https://bit.ly/2J92dZZ.
 
 \newline
 
@@ -45,8 +45,8 @@ Row
 ### Escore Bruto 1
 
 ```{r}
-texto_notaEB1 <- renderPrint(paste("Sua nota foi semelhante ou melhor do que a nota de",
-                                  scales::percent(round(ecdf(PAS2018$EscoreBruto1)(PAS2018$EscoreBruto1)[PAS2018$Inscrição == input$Inscricao],2)),
+texto_notaEB1 <- renderText(paste("Sua nota foi semelhante ou melhor do que a nota de",
+                                  scales::percent(round(ecdf(PAS2018$EscoreBruto1)(PAS2018$EscoreBruto1)[PAS2018$Inscrição == input$Inscrição],2)),
                                   "dos participantes"))
 renderPlot({
   
@@ -55,7 +55,7 @@ renderPlot({
                   color = "royalblue",
                   fill = "lightblue",
                   boundary = 0) +
-    geom_vline(xintercept = PAS2018$EscoreBruto1[PAS2018$Inscrição == input$Inscricao],
+    geom_vline(xintercept = PAS2018$EscoreBruto1[PAS2018$Inscrição == input$Inscrição],
               color = "red",
               size = 2) +
     labs(x = "Escore Bruto 1",
@@ -63,6 +63,7 @@ renderPlot({
         title = texto_notaEB1()) +
     scale_x_continuous(breaks = c(seq(0:10)),
                       position = "right") +
+    scale_y_continuous(labels = function(x) format(x, big.mark = ".")) +
     theme_classic() +
     theme(plot.title = element_text(size = 17))
   
@@ -74,8 +75,8 @@ renderPlot({
 
 ```{r}
 
-texto_notaEB2 <- renderPrint(paste("Sua nota foi semelhante ou melhor do que a nota de",
-                                  scales::percent(round(ecdf(PAS2018$EscoreBruto2)(PAS2018$EscoreBruto2)[PAS2018$Inscrição == input$Inscricao],2)),
+texto_notaEB2 <- renderText(paste("Sua nota foi semelhante ou melhor do que a nota de",
+                                  scales::percent(round(ecdf(PAS2018$EscoreBruto2)(PAS2018$EscoreBruto2)[PAS2018$Inscrição == input$Inscrição],2)),
                                   "dos participantes"))
 
 renderPlot({
@@ -85,7 +86,7 @@ renderPlot({
                   color = "royalblue",
                   fill = "lightblue",
                   boundary = 0) +
-    geom_vline(xintercept = PAS2018$EscoreBruto2[PAS2018$Inscrição == input$Inscricao],
+    geom_vline(xintercept = PAS2018$EscoreBruto2[PAS2018$Inscrição == input$Inscrição],
               color = "red",
               size = 2) +
     labs(x = "Escore Bruto 2",
@@ -93,6 +94,7 @@ renderPlot({
         title = texto_notaEB2()) +
     scale_x_continuous(breaks = c(seq(0,100, by = 10)),
                       position = "right") +
+    scale_y_continuous(labels = function(x) format(x, big.mark = ".")) +
     theme_classic() +
     theme(plot.title = element_text(size = 17))
   
@@ -106,8 +108,8 @@ Row
 ### Nota D
 
 ```{r}
-texto_notaD <- renderPrint(paste("Sua nota foi semelhante ou melhor do que a nota de",
-                                 scales::percent(round(ecdf(PAS2018$NotaD)(PAS2018$NotaD)[PAS2018$Inscrição == input$Inscricao],2)),
+texto_notaD <- renderText(paste("Sua nota foi semelhante ou melhor do que a nota de",
+                                 scales::percent(round(ecdf(PAS2018$NotaD)(PAS2018$NotaD)[PAS2018$Inscrição == input$Inscrição],2)),
                                  "dos participantes"))
 renderPlot({
   
@@ -116,7 +118,7 @@ renderPlot({
                   color = "royalblue",
                   fill = "lightblue",
                   boundary = 0) +
-    geom_vline(xintercept = PAS2018$NotaD[PAS2018$Inscrição == input$Inscricao],
+    geom_vline(xintercept = PAS2018$NotaD[PAS2018$Inscrição == input$Inscrição],
               color = "red",
               size = 2) +
     labs(x = "Nota tipo D",
@@ -124,6 +126,7 @@ renderPlot({
         title = texto_notaD()) +
     scale_x_continuous(breaks = c(seq(0:10)),
                       position = "right") +
+    scale_y_continuous(labels = function(x) format(x, big.mark = ".")) +
     theme_classic() +
     theme(plot.title = element_text(size = 17))
   
@@ -134,8 +137,8 @@ renderPlot({
 ### Nota Redação
 
 ```{r}
-texto_notaR <- renderPrint(paste("Sua nota foi semelhante ou melhor do que a nota de",
-                                 scales::percent(round(ecdf(PAS2018$NotaRedação)(PAS2018$NotaRedação)[PAS2018$Inscrição == input$Inscricao],2)),
+texto_notaR <- renderText(paste("Sua nota foi semelhante ou melhor do que a nota de",
+                                 scales::percent(round(ecdf(PAS2018$NotaRedação)(PAS2018$NotaRedação)[PAS2018$Inscrição == input$Inscrição],2)),
                                  "dos participantes"))
 renderPlot({
   
@@ -144,7 +147,7 @@ renderPlot({
                   color = "royalblue",
                   fill = "lightblue",
                   boundary = 0) +
-    geom_vline(xintercept = PAS2018$NotaRedação[PAS2018$Inscrição == input$Inscricao],
+    geom_vline(xintercept = PAS2018$NotaRedação[PAS2018$Inscrição == input$Inscrição],
               color = "red",
               size = 2) +
     labs(x = "Nota Redação",
@@ -152,6 +155,7 @@ renderPlot({
         title = texto_notaR()) +
     scale_x_continuous(breaks = c(seq(0:10)),
                       position = "right") +
+    scale_y_continuous(labels = function(x) format(x, big.mark = ".")) +
     theme_classic() +
     theme(plot.title = element_text(size = 17))
   

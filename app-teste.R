@@ -8,24 +8,25 @@
 #
 
 library(shiny)
+library(ggplot2)
 
 # Load data
 
-setwd("X:/CIG/PAS")
-PAS2019 <- rio::import("NotasPAS2019.xlsx")
+# setwd("X:/CIG/PAS")
+PAS2018 <- rio::import("NotasPAS2018.xlsx")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
    
    # Application title
-   titlePanel("Notas no PAS 2019"),
+   titlePanel("Notas no PAS 2018"),
    
    # Sidebar with a slider input for number of bins 
    sidebarLayout(
       sidebarPanel(
          selectInput("Inscrição",
                      "Selecione seu número de inscrição:",
-                     choices = unique(PAS2019$Inscrição))
+                     choices = unique(PAS2018$Inscrição))
       ),
       
       # Show a plot of the generated distribution
@@ -42,15 +43,15 @@ server <- function(input, output) {
       # generate bins based on input$bins from ui.R
      inscricao <- input$Inscrição
      texto_nota <- paste("Sua nota foi melhor que", 
-                         scales::percent(round(ecdf(PAS2019$EscoreBruto1)(PAS2019$EscoreBruto1)[PAS2019$Inscrição == inscricao],2)),
+                         scales::percent(round(ecdf(PAS2018$EscoreBruto1)(PAS2018$EscoreBruto1)[PAS2018$Inscrição == inscricao],2)),
                          "dos participantes")
      
-     ggplot(data = PAS2019, aes(EscoreBruto1)) +
+     ggplot(data = PAS2018, aes(EscoreBruto1)) +
        geom_histogram(binwidth = 1,
                       color = "royalblue",
                       fill = "lightblue",
                       boundary = 0) +
-       geom_vline(xintercept = PAS2019$EscoreBruto1[PAS2019$Inscrição == inscricao],
+       geom_vline(xintercept = PAS2018$EscoreBruto1[PAS2018$Inscrição == inscricao],
                   color = "red",
                   size = 2) +
        labs(x = "Escore Bruto 1",
