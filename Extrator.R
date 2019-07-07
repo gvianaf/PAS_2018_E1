@@ -66,7 +66,7 @@ save(notasPAS, file = "notasPAS.RData")
 rm(list = ls())
 
 ### boxplot
-
+notasPAS <- rio::import("NotasPAS2018.xlsx")
 load("notasPAS.RData")
 
 notasPAS %>% 
@@ -78,80 +78,52 @@ notasPAS %>%
 
 ### gráfico para o aplicativo
 
-### fase 1
+# gráficos iniciais
 
 ggplot(data = notasPAS, 
-       aes(x = EscoreBruto1)) +
-  geom_histogram(bins = 10,
-                 boundary = 0) +
-  scale_x_continuous(breaks = c(seq(0:10))) +
-  theme_classic()
-
-### testa n bin
-
-graf1 <- ggplot(data = notasPAS, 
-                aes(x = SomaEB)) +
-  geom_histogram(bins = 10,
-                 boundary = 0) +
-  # scale_x_continuous(breaks = c(seq(0:10))) +
-  labs(title = "10 barras") +
-  theme_classic()
-
-graf2 <- ggplot(data = notasPAS, 
-                aes(x = SomaEB)) +
-  geom_histogram(bins = 15,
-                 boundary = 0) +
-  # scale_x_continuous(breaks = c(seq(0:10))) +
-  labs(title = "15 barras") +
-  theme_classic()
-
-graf3 <- ggplot(data = notasPAS, 
-                aes(x = SomaEB)) +
-  geom_histogram(bins = 20,
-                 boundary = 0) +
-  # scale_x_continuous(breaks = c(seq(0:10))) +
-  labs(title = "20 barras") +
-  theme_classic()
-
-graf4 <- ggplot(data = notasPAS, 
-                aes(x = SomaEB)) +
-  geom_histogram(bins = 25,
-                 boundary = 0) +
-  # scale_x_continuous(breaks = c(seq(0:10))) +
-  labs(title = "25 barras") +
-  theme_classic()
-
-gridExtra::grid.arrange(graf1, graf2, graf3, graf4, nrow = 2)
+       aes(x = NotaTotal)) +
+  geom_histogram()
 
 ggplot(data = notasPAS, 
-       aes(x = EscoreBruto1)) +
-  geom_histogram(bins = unique(bin),
-                 boundary = 0) +
-  scale_x_continuous(breaks = c(seq(0:10))) +
-  facet_wrap(~bin) +
-  theme_classic()
+       aes(x = NotaTotal)) +
+  geom_histogram(bins = 10,   # número de barras
+                 boundary = 0,   # força a barra a começar em zero
+                 color = "royalblue",   # cor interna
+                 fill = "lightblue",) +   # cor da borda
+  scale_x_continuous(breaks = seq(0, 100, by = 10)) +   # mostra a legenda dos números de 10 em 10
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".")) +   # formata para inserir o ponto de milhar
+  labs(x = "Nota Total",   # legenda do eixo x
+       y = "Número de estudantes") +   # legenda do eixo y
+  theme_classic()   # tema limpo, sem distrações
 
-
+# número de inscrição aleatório
 inscricao <- sample(notasPAS$Inscrição, 1)
 
+# monta o texto explicativo
+# utilizando a função paste para juntar as partes
+# e a função ecdf para encontrar a posição do candidato
 texto_nota <- paste("Sua nota foi melhor que", 
-                    scales::percent(round(ecdf(notasPAS$EscoreBruto1)(notasPAS$EscoreBruto1)[notasPAS$Inscrição == inscricao],2)),
+                    scales::percent(round(ecdf(notasPAS$NotaTotal)(notasPAS$NotaTotal)[notasPAS$Inscrição == inscricao],2)),
                     "dos participantes")
 
-ggplot(data = notasPAS, aes(EscoreBruto1)) +
+# cria gráfico juntando tudo
+ggplot(data = notasPAS, 
+       aes(x = NotaTotal)) +
   geom_histogram(bins = 10,
+                 boundary = 0,
                  color = "royalblue",
-                 fill = "lightblue",
-                 boundary = 0) +
-  geom_vline(xintercept = notasPAS$EscoreBruto1[notasPAS$Inscrição == inscricao],
-             color = "red",
-             size = 2) +
-  labs(x = "Escore Bruto 1",
+                 fill = "lightblue",) +
+  geom_vline(xintercept = notasPAS$NotaTotal[notasPAS$Inscrição == inscricao],   # insere uma linha vertical
+             color = "red",                                                      # de cor vermelha
+             size = 2) +                                                         # e tamanho 2
+  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".")) +
+  labs(x = "Nota Total",
        y = "Número de estudantes",
-       title = texto_nota) +
-  scale_x_continuous(breaks = c(seq(0:10)),
-  position = "right") +
+       title = texto_nota) +   # insere o texto explicativo como título do gráfico
   theme_classic()
+
+
 
 
 

@@ -5,8 +5,8 @@ account: gvianaf
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 784621
-bundleId: 2170027
+bundleId: 2192228
 url: https://gvianaf.shinyapps.io/AppPAS2018/
-when: 1561146054.83353
+when: 1562012282.17922
 asMultiple: FALSE
 asStatic: FALSE
